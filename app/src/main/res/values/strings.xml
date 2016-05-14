@@ -1,0 +1,13 @@
+<resources>
+    <string name="app_name">LocationDistanceCalulation</string>
+    <string name="message">Enter Your Location</string>
+    <string name="tile_tag">Title</string>
+    <string name="price_tag">from </string>
+    <string name="eventID_tag">ID: </string>
+    <string name="location_tag">Location: </string>
+
+    <string name="find_button">Find Events Nearby</string>
+
+    <string name="toolbar_favorite_snack">"Toolbar favorite clicked: "</string>
+    <string name="snackbar_message">List of events closeby returned</string>
+</resources>
