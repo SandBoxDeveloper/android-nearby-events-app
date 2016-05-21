@@ -136,6 +136,7 @@ public class MainActivity extends AppCompatActivity {
                     //display events that are closest to user i.e smaller distance
                     for (int i = 0; i < mNumberOfResultsToDisplay; i++) {
                         Log.d("Sorted List", calculatedDistances.get(i).toString());
+                        Log.d("Sorted List ID", map.get("Event " + i + " ID").toString());
                         eventWithCalculatedDistance.get("Event " + map.get("Event " + i + " ID")); //TODO
 
                         eventWithDistance.get("Event " + map.get("Event " + i + " ID")); //event ID

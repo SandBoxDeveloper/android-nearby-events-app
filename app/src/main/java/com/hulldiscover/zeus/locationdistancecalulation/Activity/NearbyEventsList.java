@@ -77,7 +77,7 @@ public class NearbyEventsList extends AppCompatActivity{
                 // events that have been identified as nearby to the user
                 // grab from the data-source of events, based on their ID
                 // add them to list as nearby events
-              
+
                 /*for(int j = 0; j <eventID.size(); j++)
                 if(mAllEventsList.contains(eventID.get(j))) {
                     mNearbyEventsList.add(mAllEventsList.get(eventID.get(i)));
@@ -90,6 +90,7 @@ public class NearbyEventsList extends AppCompatActivity{
                     Log.d("Failed", "no ids");
                 }*/
                 //mNearbyEventsList.add(mAllEventsList.contains(eventID.get(i)));
+                mNearbyEventsList.clear(); // clear old list
                 for(int j = 0; j < nearbyEvents.size(); j++) {
                     mNearbyEventsList.add(nearbyEvents.get(j));
                 }
