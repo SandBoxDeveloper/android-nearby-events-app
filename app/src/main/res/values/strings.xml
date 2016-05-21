@@ -1,13 +1,21 @@
 <resources>
-    <string name="app_name">LocationDistanceCalulation</string>
-    <string name="message">Enter Your Location</string>
+    <string name="app_name">Location Distance Calculation</string>
+
+
+    <!-- Detailed Event View -->
     <string name="tile_tag">Title</string>
     <string name="price_tag">from </string>
     <string name="eventID_tag">ID: </string>
     <string name="location_tag">Location: </string>
 
-    <string name="find_button">Find Events Nearby</string>
 
     <string name="toolbar_favorite_snack">"Toolbar favorite clicked: "</string>
     <string name="snackbar_message">List of events closeby returned</string>
+
+    <!-- Main Activity -->
+    <string name="message">Enter Your Location</string>
+    <string name="x_coordinate_hint"> 3</string>
+    <string name="y_coordinate_hint"> 10</string>
+    <string name="find_button">Find Events Nearby</string>
+
 </resources>

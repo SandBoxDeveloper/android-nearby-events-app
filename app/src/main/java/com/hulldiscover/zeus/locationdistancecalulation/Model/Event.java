@@ -1,20 +1,21 @@
 package com.hulldiscover.zeus.locationdistancecalulation.Model;
 
-import android.graphics.Point;
+import android.graphics.PointF;
 
+import java.io.Serializable;
 import java.math.BigDecimal;
 
 /**
  * Created by Zeus on 12/05/16.
  */
-public class Event {
+public class Event implements Serializable {
 
     int id;
     BigDecimal price;
     String title;
     String event_image;
     int noOfTickets;
-    Point location;
+    PointF location;
 
 
     public Event() {
@@ -60,12 +61,12 @@ public class Event {
         this.noOfTickets = noOfTickets;
     }
 
-    public Point getLocation() {
+    public PointF getLocation() {
         return location;
     }
 
-    public void setLocation(int pointX, int pointY) {
-        this.location = new Point();
+    public void setLocation(float pointX, float pointY) {
+        this.location = new PointF();
         this.location.x = pointX;
         this.location.y = pointY;
     }

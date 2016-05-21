@@ -10,42 +10,69 @@
     tools:context=".Activity.MainActivity">
 
     <TextView
+        android:id="@+id/textView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/message"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="148dp"
-        android:id="@+id/textView"
+        android:text="@string/message"
         android:textSize="35sp" />
 
-    <EditText
-        android:layout_width="100dp"
-        android:layout_height="wrap_content"
-        android:inputType="number"
-        android:ems="10"
-        android:id="@+id/inputXCoordinate"
-        android:layout_marginTop="121dp"
-        android:layout_below="@+id/textView"
-        android:layout_toStartOf="@+id/inputYCoordinate"
-        android:layout_marginEnd="55dp" />
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="80dp"
+        android:layout_above="@+id/findButton"
+        android:layout_alignParentStart="true"
+        android:layout_marginBottom="60dp">
 
-    <EditText
-        android:layout_width="100dp"
-        android:layout_height="wrap_content"
-        android:inputType="number"
-        android:ems="10"
-        android:id="@+id/inputYCoordinate"
-        android:layout_alignTop="@+id/inputXCoordinate"
-        android:layout_alignParentEnd="true"
-        android:layout_marginEnd="44dp" />
-
-    <Button
+     <!-- X Coordinate Label -->
+    <android.support.design.widget.TextInputLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/find_button"
+        android:layout_weight="1">
+
+        <android.support.design.widget.TextInputEditText
+            android:id="@+id/inputXCoordinate"
+            android:layout_width="100dp"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/textView"
+            android:layout_marginEnd="55dp"
+            android:layout_marginTop="121dp"
+            android:layout_toStartOf="@+id/inputYCoordinate"
+            android:ems="10"
+            android:hint="@string/x_coordinate_hint"
+            android:inputType="number"
+            android:layout_weight="1" />
+    </android.support.design.widget.TextInputLayout>
+
+     <!-- Y Coordinate Label -->
+    <android.support.design.widget.TextInputLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="1">
+        <android.support.design.widget.TextInputEditText
+            android:id="@+id/inputYCoordinate"
+            android:layout_width="100dp"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_alignTop="@+id/inputXCoordinate"
+            android:layout_marginEnd="44dp"
+            android:ems="10"
+            android:hint="@string/y_coordinate_hint"
+            android:inputType="number"
+            android:layout_weight="1"/>
+    </android.support.design.widget.TextInputLayout>
+    </LinearLayout>
+
+
+    <Button
         android:id="@+id/findButton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true" />
+        android:layout_centerHorizontal="true"
+        android:text="@string/find_button" />
 
 </RelativeLayout>

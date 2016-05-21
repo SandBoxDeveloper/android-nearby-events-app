@@ -2,8 +2,11 @@ package com.hulldiscover.zeus.locationdistancecalulation.Activity;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.view.View;
 import android.widget.ListView;
 
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import com.hulldiscover.zeus.locationdistancecalulation.Adapter.ListAdapter;
 import com.hulldiscover.zeus.locationdistancecalulation.Helper.XMLPullParserHandler;
 import com.hulldiscover.zeus.locationdistancecalulation.Model.Event;
@@ -11,6 +14,7 @@ import com.hulldiscover.zeus.locationdistancecalulation.R;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by Zeus on 14/05/16.
@@ -29,17 +33,36 @@ public class NearbyEventsList extends AppCompatActivity{
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_nearby_events_listview);
 
+        // used for later reference for call Android snackbar
+        View parentLayout = findViewById(R.id.txt_eventID);
+
         //SETUP
         mListview = (ListView)findViewById(R.id.listView); // find listView layout
         imageURLs = new ArrayList<String>(); // url of events images
         mNearbyEventsList = new ArrayList<Event>(); // list of nearby events
         ArrayList<Integer> eventID = new ArrayList<Integer>(); // event ids
+        ArrayList<Event> nearbyEvents = new ArrayList<Event>(); // event ids
         //get data
 
         Bundle extras = getIntent().getExtras();
         if (extras != null) {
             eventID = extras.getIntegerArrayList("EventID");
+            //nearbyEvents = extras.getParcelable("event");
+            //ArrayList<Event> questions = new ArrayList<Event>();
+            //questions = getIntent().getSerializableExtra("QuestionListExtra");
+            //nearbyEvents = (ArrayList<Event>)getIntent().getSerializableExtra("event");
+
         }
+        //MainActivity.DataWrapper dw = (MainActivity.DataWrapper) getIntent().getSerializableExtra("data");
+        //nearbyEvents = dw.getParliaments();
+
+        // Deserializing JSON, it needs that information to be able
+        // To determine what type of object it should deserialize each array element to
+        Gson gson = new Gson();
+        String strObj = getIntent().getStringExtra("obj");
+        nearbyEvents = gson.fromJson(strObj, new TypeToken<List<Event>>(){}.getType());
+
+        //nearbyEvents obj = gson.fromJson(strObj, Event.class);
 
         try {
             XMLPullParserHandler parser = new XMLPullParserHandler();
@@ -54,7 +77,23 @@ public class NearbyEventsList extends AppCompatActivity{
                 // events that have been identified as nearby to the user
                 // grab from the data-source of events, based on their ID
                 // add them to list as nearby events
-                mNearbyEventsList.add(mAllEventsList.get(eventID.get(i)));
+              
+                /*for(int j = 0; j <eventID.size(); j++)
+                if(mAllEventsList.contains(eventID.get(j))) {
+                    mNearbyEventsList.add(mAllEventsList.get(eventID.get(i)));
+                }*/
+                //if(mAllEventsList.get(i).getId() == eventID.get(i)) {
+                    //mNearbyEventsList.add(mAllEventsList.get(eventID.get(i)));
+                //}
+                /*else {
+                    //Snackbar.make(parentLayout, getString(R.string.snackbar_message), Snackbar.LENGTH_SHORT).show();
+                    Log.d("Failed", "no ids");
+                }*/
+                //mNearbyEventsList.add(mAllEventsList.contains(eventID.get(i)));
+                for(int j = 0; j < nearbyEvents.size(); j++) {
+                    mNearbyEventsList.add(nearbyEvents.get(j));
+                }
+                //mNearbyEventsList.add(nearbyEvents); // add nearby events
             }
         } catch (IOException e) {
             e.printStackTrace();
