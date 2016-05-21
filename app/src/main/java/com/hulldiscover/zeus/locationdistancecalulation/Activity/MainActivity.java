@@ -19,10 +19,8 @@ import com.hulldiscover.zeus.locationdistancecalulation.Model.Event;
 import com.hulldiscover.zeus.locationdistancecalulation.R;
 
 import java.io.IOException;
-import java.io.Serializable;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -36,7 +34,7 @@ public class MainActivity extends AppCompatActivity {
     Button mReturnClosbyEventsButton;
     ListView mListview; //ListView
     ListAdapter mListAdapter; //ListAdapter
-    int mNumberOfResultsToDisplay = 5; // number rof results to display to user
+    int mNumberOfResultsToDisplay = 3; // number rof results to display to user
 
     Float xCoordinateAsInteger = 0f;
     Float yCoordinateAsInteger = 0f;
@@ -45,6 +43,7 @@ public class MainActivity extends AppCompatActivity {
     Map<String, Float> map = new HashMap<String, Float>();
     Map<String, Integer> eventWithDistance = new HashMap<String, Integer>();
     Map<String, Event> eventWithCalculatedDistance = new HashMap<String, Event>();
+    Map<Event, Integer> eventObjectWithCalculatedDistance = new HashMap<Event, Integer>();
     Map<String, Event> events = new HashMap<String, Event>();
 
     // list of vending stock
@@ -52,7 +51,6 @@ public class MainActivity extends AppCompatActivity {
     ArrayList<String> imageURLs = new ArrayList<String>();
     ArrayList<Integer> mEventID = new ArrayList<Integer>();
     ArrayList<Event> mEvents = new ArrayList<Event>();
-
 
 
     @Override
@@ -63,116 +61,126 @@ public class MainActivity extends AppCompatActivity {
         // used for later reference for call Android snackbar
         final View parentLayout = findViewById(R.id.textView);
 
-        // user input values
+        // user input values, x and y coordinates
         mUserInputXCoordinate = (EditText) findViewById(R.id.inputXCoordinate);
         mUserInputYCoordinate = (EditText) findViewById(R.id.inputYCoordinate);
 
-        // reference button
+        // reference to button
         mReturnClosbyEventsButton = (Button) findViewById(R.id.findButton);
 
-        // validate user input
-        /*if (!validate()) { // if validation failed
-            validationFailed(); // alert user
-            return;
-        }*/
+        // gather event items from XML file
+        retrieveEventListings();
 
-            /*// if validation was successful
-            mReturnClosbyEventsButton.setEnabled(false); // enable 'find nearby' events button
-            try {
-                // convert string input to Integer value
-                xCoordinateAsInteger = Integer.parseInt(mUserInputXCoordinate.getText().toString());
-                yCoordinateAsInteger = Integer.parseInt(mUserInputYCoordinate.getText().toString());
-            } catch (NumberFormatException exception) {
-                exception.printStackTrace();
-            }*/
+        // on button click
+        // find events nearby to user coordinates
+        mReturnClosbyEventsButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
 
-        /*if(mUserInputXCoordinate.getText().toString() !="" && mUserInputYCoordinate.getText().toString() !="") {
-            try {
-                xCoordinateAsInteger = Integer.parseInt(mUserInputXCoordinate.getText().toString());
-                yCoordinateAsInteger = Integer.parseInt(mUserInputYCoordinate.getText().toString());
-            } catch (NumberFormatException exception) {
-                exception.printStackTrace();
-            }
-        }
-        else {
-            Toast.makeText(MainActivity.this, "Please insert you coordinates, (x, y)",
-            Toast.LENGTH_SHORT).show();
-        }*/
-
-            // gather event items from XML file
-            retrieveEventListings();
-
-
-            // find nearby events button
-            // on button click
-            mReturnClosbyEventsButton.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-
-                    // validate inputs
-                    // validate user input
-                    if (!validate()) { // if validation failed
-                        validationFailed(); // alert user
-                        return;
-                    }
-
-                    // validation was successful
-                    mReturnClosbyEventsButton.setEnabled(false); // enable 'find nearby' events button
-                    try {
-                        // convert string input to Integer value
-                        xCoordinateAsInteger = Float.parseFloat(mUserInputXCoordinate.getText().toString());
-                        yCoordinateAsInteger = Float.parseFloat(mUserInputYCoordinate.getText().toString());
-                    } catch (NumberFormatException exception) {
-                        exception.printStackTrace();
-                    }
-
-                    //list of calculated distances
-                    ArrayList<Integer> calculatedDistances = calculateDistanceBetweenLocations(eventListings, xCoordinateAsInteger, yCoordinateAsInteger);
-                    Collections.sort(calculatedDistances);
-
-                    //List<Event> mList = new ArrayList<Event>(); //remove
-                    ArrayList<Event> mQuestionList = new ArrayList<Event>();
-
-                    //display events that are closest to user i.e smaller distance
-                    for (int i = 0; i < mNumberOfResultsToDisplay; i++) {
-                        Log.d("Sorted List", calculatedDistances.get(i).toString());
-                        Log.d("Sorted List ID", map.get("Event " + i + " ID").toString());
-                        eventWithCalculatedDistance.get("Event " + map.get("Event " + i + " ID")); //TODO
-
-                        eventWithDistance.get("Event " + map.get("Event " + i + " ID")); //event ID
-                        eventWithDistance.get("Event " + map.get("Event " + i + " ID") + " Distance"); //distance event is from user
-                        mEventID.add(eventWithDistance.get("Event " + map.get("Event " + i + " ID"))); // add event ids to list
-                        mEvents.add(eventWithCalculatedDistance.get("Event " + map.get("Event " + i + " ID")));
-                        events.get("Event " + i);
-                        mQuestionList.add(mEvents.get(i)); // remove
-                    }
-
-                    // display message to user
-                    Snackbar.make(parentLayout, getString(R.string.snackbar_message), Snackbar.LENGTH_SHORT).show();
-
-
-                    //pass data by intents
-                    Intent intent = new Intent(MainActivity.this, NearbyEventsList.class);
-                    intent.putExtra("EventID", mEventID);
-
-                    Gson gson = new Gson();
-                    Type listOfTestObject = new TypeToken<List<Event>>(){}.getType();
-                    String s = gson.toJson(mEvents, listOfTestObject);
-                    intent.putExtra("obj", s);
-
-                    //intent.putExtra("event", mQuestionList);
-                    //intent.putExtra("data", new DataWrapper(mEvents));
-                    startActivity(intent);
-
-
+                // validate user input
+                if (!validate()) { // if validation failed
+                    validationFailed(); // alert user and disable 'find nearby' events button
+                    return; // allow user to input values again
                 }
-            });
+
+                // validation was successful
+                mReturnClosbyEventsButton.setEnabled(false); // enable 'find nearby' events button
+                try {
+                    // grab user inputs, x and y coordinates
+
+                    // setup local variables to convert string input from
+                    // the user's device
+                    // to an Integer values
+                    xCoordinateAsInteger = Float.parseFloat(mUserInputXCoordinate.getText().toString());
+                    yCoordinateAsInteger = Float.parseFloat(mUserInputYCoordinate.getText().toString());
+                } catch (NumberFormatException exception) {
+                    exception.printStackTrace();
+                }
+
+                //list of calculated distances
+                //ArrayList<Integer> calculatedDistances = calculateDistanceBetweenLocations(eventListings, xCoordinateAsInteger, yCoordinateAsInteger);
+                //Collections.sort(calculatedDistances);
+
+                /*ArrayList<Integer> calculatedDistances = calculateDistanceBetweenLocations(eventListings, xCoordinateAsInteger, yCoordinateAsInteger);
+                for (int j = 0; j < eventObjectWithCalculatedDistance.size(); j++) {
+                    Collections.sort(eventObjectWithCalculatedDistance.values());
+                }*/
+
+               // Collections.sort(calculatedDistances);
+
+                ArrayList<Event> mQuestionList = new ArrayList<Event>();
+
+                Map<Event, Integer> calculatedDistances = calculateDistanceBetweenLocations(eventListings, xCoordinateAsInteger, yCoordinateAsInteger);
+
+                for (Map.Entry<Event,Integer> entry : calculatedDistances.entrySet()) {
+                    Event key = entry.getKey();
+                    Integer value = entry.getValue();
+                    Log.d("Key: ", key.getTitle().toString());
+                    Log.d("Value: ", value.toString());
+                    // do stuff
+                    //Map<Event, Integer> treeMap = new TreeMap<Event, Integer>(calculatedDistances);
+                    //Log.d("Sorted Map", treeMap.toString());
+                }
+
+
+                //Map<Event, Integer> treeMap = new TreeMap<Event, Integer>(eventObjectWithCalculatedDistance);
+                //Log.d("Sorted Map", treeMap.toString());
+                /*for(int q = 0 ; q < eventObjectWithCalculatedDistance.size(); q++) {
+                    int eventItem = eventObjectWithCalculatedDistance.get(q);
+
+                }*/
+
+                //display events that are closest to user i.e smaller distance
+                for (int i = 0; i < mNumberOfResultsToDisplay; i++) {
+                    //Log.d("Sorted List", calculatedDistances.get(i).toString());
+                    Log.d("Cal Distance", eventWithCalculatedDistance.get("Event " + map.get("Event " + i + " ID")).getTitle());
+                    eventWithCalculatedDistance.get("Event " + map.get("Event " + i + " ID")); //TODO
+
+                    eventWithDistance.get("Event " + map.get("Event " + i + " ID")); //event ID
+                    eventWithDistance.get("Event " + map.get("Event " + i + " ID") + " Distance"); //distance event is from user
+                    mEventID.add(eventWithDistance.get("Event " + map.get("Event " + i + " ID"))); // add event ids to list
+                    mEvents.add(eventWithCalculatedDistance.get("Event " + map.get("Event " + i + " ID")));
+                    events.get("Event " + i);
+                    mQuestionList.add(mEvents.get(i)); // remove
+                }
+
+                // display message to user
+                Snackbar.make(parentLayout, getString(R.string.snackbar_message), Snackbar.LENGTH_SHORT).show();
+
+
+                /*
+                * Pass data by intents to NearbyEventList Activity
+                * This data will be sent so that the next activity
+                * Can display a list of nearby events to the user
+                */
+
+                // 1. create Intent
+                Intent intent = new Intent(MainActivity.this, NearbyEventsList.class);
+
+                // 2. using Gson Library to parse event objects to 'NearbyEventsList' activity
+                Gson gson = new Gson();
+
+                // 3. let Gson know the type of data we're intending to send
+                Type listOfEventObjects = new TypeToken<List<Event>>() {  // List of "Event" objects
+                }.getType();
+
+                // 4. java 'Event' object to JSON, and assign to a String
+                String eventObject = gson.toJson(mEvents, listOfEventObjects);
+
+                // 5. pass data as extras via intent
+                intent.putExtra("obj", eventObject);
+
+                // 6. start 'NearbyEventsList' activity, and pass data objects to it
+                startActivity(intent);
+
+            }
+        });
 
     }
 
     /*
-     * gather event items from XML file
-      */
+     * Retrieve event items from XML file
+     */
     private void retrieveEventListings() {
         try {
             XMLPullParserHandler parser = new XMLPullParserHandler();
@@ -182,7 +190,7 @@ public class MainActivity extends AppCompatActivity {
                 imageURLs.add(eventListings.get(i).getEvent_image());
                 eventListings.get(i).setEvent_image(imageURLs.get(i));
                 eventListings.get(i).setLocation(eventListings.get(i).getLocation().x, eventListings.get(i).getLocation().y);
-                map.put("Event " + i + " ID", (float)eventListings.get(i).getId());
+                map.put("Event " + i + " ID", (float) eventListings.get(i).getId());
                 map.put("Event " + i + " LocationX", eventListings.get(i).getLocation().x);
                 map.put("Event " + i + " LocationY", eventListings.get(i).getLocation().y);
                 events.put("Event " + i, eventListings.get(i)); // map events
@@ -193,8 +201,8 @@ public class MainActivity extends AppCompatActivity {
     }
 
     /*
-    * Validate a user's coordinate input
-    */
+     * Validate a user's inputs - x and y coordinates
+     */
     public boolean validate() {
         boolean valid = true;
 
@@ -254,33 +262,20 @@ public class MainActivity extends AppCompatActivity {
     }
 
     /*
-    * Validate of a user's coordinate inputs have failed
-    *
-    * This method alerts the user that there input is inncorrect
+    * A user's coordinates are in-valid
+    * This method alerts the user that there input is incorrect
     */
     public void validationFailed() {
-        Toast.makeText(MainActivity.this, "Something is wrong, please check your coordinates", Toast.LENGTH_LONG).show();
+        Toast.makeText(MainActivity.this, "Something is wrong, please check your coordinates", Toast.LENGTH_LONG).show(); // alert user
         mReturnClosbyEventsButton.setEnabled(true); // disable 'find nearby' events button
     }
 
-    public class DataWrapper implements Serializable {
-
-        private ArrayList<Event> parliaments;
-
-        public DataWrapper(ArrayList<Event> data) {
-            this.parliaments = data;
-        }
-
-        public ArrayList<Event> getParliaments() {
-            return this.parliaments;
-        }
-
-    }
-
     /*
-    * Calculate the distance between a user's coordinates againsts the coordinates of events nearby
+    * Calculate the distance between a user's coordinates againsts the coordinates of listed events
+    * This method returns a Hashtable - The event mapped with the distance the user is from this event
     */
-    private ArrayList<Integer> calculateDistanceBetweenLocations(ArrayList<Event> eventListings, Float userXInput, Float userYInput) {
+    //private ArrayList<Integer> calculateDistanceBetweenLocations(ArrayList<Event> eventListings, Float userXInput, Float userYInput) {
+    private Map<Event, Integer> calculateDistanceBetweenLocations(ArrayList<Event> eventListings, Float userXInput, Float userYInput) {
         //init x, y coordinates
         Float xCoordinateAsInteger = userXInput;
         Float yCoordinateAsInteger = userYInput;
@@ -291,23 +286,36 @@ public class MainActivity extends AppCompatActivity {
         //loop through all events
         for (int i = 0; i < eventListings.size(); i++) {
 
-            //determine the distance between the event and the user
+            /*
+             * Determine the distance between events and the user
+             */
             Float x1 = xCoordinateAsInteger; // user input
             Float y1 = yCoordinateAsInteger; // user input
-            Float x2 = map.get("Event " + i + " LocationX"); //event location x, coordinate
-            Float y2 = map.get("Event " + i + " LocationY"); //event location y, coordinate
+            Float x2 = map.get("Event " + i + " LocationX"); //event location x coordinate
+            Float y2 = map.get("Event " + i + " LocationY"); //event location y coordinate
 
+            // calculate the distance, using Manhattan Distance
             float calculatedDistance = manhattanDistance(x1, x2, y1, y2); // calculated distance between user and event
-            distances.add((int)calculatedDistance); // add distance to list
+            distances.add((int) calculatedDistance); // add distance to list
+
+
+
+            eventObjectWithCalculatedDistance.put(eventListings.get(i), (int) calculatedDistance);
+            Log.d("MainActivity", "Calculation");
+            Log.d(eventListings.get(i).getTitle(), "Distance Away from user " + Float.toString(calculatedDistance)); // Title vs Calculated Distance
+            Log.d("Event ID: " + map.get("Event " + i + " ID"), "Distance Away from user " + Float.toString(calculatedDistance)); // Title vs Calculated Distance
+
+
             eventWithCalculatedDistance.put("Event " + map.get("Event " + i + " ID"), eventListings.get(i)); //TODO
 
             eventWithDistance.put("Event " + map.get("Event " + i + " ID"), eventListings.get(i).getId()); //event ID
-            eventWithDistance.put("Event " + map.get("Event " + i + " ID") + " Distance", (int)calculatedDistance); //distance event is from user
+            eventWithDistance.put("Event " + map.get("Event " + i + " ID") + " Distance", (int) calculatedDistance); //distance event is from user
 
             Log.d(TAG, "Event ID " + map.get("Event " + i + " ID") + "," + " Location at: X-" + map.get("Event " + i + " LocationX") + " And Y-" + map.get("Event " + i + " LocationY") + " Distance= " + String.valueOf(calculatedDistance));
 
         }
-        return distances; // return calculations for distances
+        //return distances; // return calculations for distances
+        return eventObjectWithCalculatedDistance;
     }
 
     /*
