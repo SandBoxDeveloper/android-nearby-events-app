@@ -19,12 +19,10 @@ import java.util.List;
  */
 public class NearbyEventsList extends AppCompatActivity{
 
-    //members
+    //Members
     ListView mListview;
     ListAdapter mListAdapter;
-    ArrayList<Event> mAllEventsList;
     ArrayList<Event> mNearbyEventsList;
-    ArrayList<String> imageURLs = new ArrayList<String>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,12 +34,11 @@ public class NearbyEventsList extends AppCompatActivity{
 
         //SETUP
         mListview = (ListView)findViewById(R.id.listView); // find listView layout
-        imageURLs = new ArrayList<String>(); // url of events images
+
         mNearbyEventsList = new ArrayList<Event>(); // list of nearby events
         ArrayList<Event> nearbyEvents = new ArrayList<Event>(); // event ids
 
-
-        //get data
+        // Get Data
         // Deserializing JSON, it needs that information to be able
         // To determine what type of object it should deserialize each array element to
         Gson gson = new Gson();
@@ -49,35 +46,15 @@ public class NearbyEventsList extends AppCompatActivity{
         nearbyEvents = gson.fromJson(strObj, new TypeToken<List<Event>>(){}.getType());
 
 
+        /* from previous activity,
+         * events that have been identified as nearby to the user
+         * grab from the data-source of events
+         * add them to a list to be displayed to the user
+         */
         mNearbyEventsList.clear(); // clear old list
         for(int j = 0; j < nearbyEvents.size(); j++) {
             mNearbyEventsList.add(nearbyEvents.get(j));
         }
-
-        /*try {
-            XMLPullParserHandler parser = new XMLPullParserHandler();
-            mAllEventsList = parser.parse(getAssets().open("event_listings.xml"));
-            // add url of each vending item
-            for(int i = 0; i < mAllEventsList.size(); i++) {
-                imageURLs.add(mAllEventsList.get(i).getEvent_image());
-                mAllEventsList.get(i).setEvent_image(imageURLs.get(i)); // set event image
-                mAllEventsList.get(i).setLocation(mAllEventsList.get(i).getLocation().x, mAllEventsList.get(i).getLocation().y); // set event location
-
-                // from previous activity,
-                // events that have been identified as nearby to the user
-                // grab from the data-source of events, based on their ID
-                // add them to list as nearby events
-
-                //mNearbyEventsList.add(mAllEventsList.contains(eventID.get(i)));
-                mNearbyEventsList.clear(); // clear old list
-                for(int j = 0; j < nearbyEvents.size(); j++) {
-                    mNearbyEventsList.add(nearbyEvents.get(j));
-                }
-
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-        }*/
 
         //display nearby events to screen
         mListAdapter = new ListAdapter(this, R.layout.listview_event_item, mNearbyEventsList);

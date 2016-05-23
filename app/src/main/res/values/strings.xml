@@ -1,6 +1,26 @@
 <resources>
-    <string name="app_name">Location Distance Calculation</string>
+    <string name="app_name">Viagogo Nearby Events</string>
 
+
+    <string name="toolbar_favorite_snack">"Toolbar favorite clicked: "</string>
+    <string name="snackbar_message">Loading Events Closeby to You...</string>
+
+    <!-- Main Activity -->
+    <string name="message">Enter Your Location</string>
+    <string name="x_coordinate_hint">" 3"</string>
+    <string name="y_coordinate_hint">" 10"</string>
+    <string name="find_button">Find Events Nearby</string>
+
+    <!-- In String Text -->
+    <string name="in_string_event_tag">"Event "</string>
+    <string name="in_string_locationX">" LocationX"</string>
+    <string name="in_string_locationY">" LocationY"</string>
+    <string name="in_string_distance_away_from">"Distance Away from user... "</string>
+    <string name="in_string_eventID_tag">"Event ID: "</string>
+    <string name="in_string_id_tag">" ID"</string>
+    <string name="in_string_coordinateX">" Coordinate X: "</string>
+    <string name="in_string_coordinateY">" Coordinate Y:"</string>
+    <string name="in_string_distance">" Distance = "</string>
 
     <!-- Detailed Event View -->
     <string name="tile_tag">Title</string>
@@ -8,14 +28,17 @@
     <string name="eventID_tag">ID: </string>
     <string name="location_tag">Location: </string>
 
+    <!-- TAGS -->
+    <string name="DISTANCE_CALCULATION_DETAILS_TAG">CALCULATION DETAILS</string>
+    <string name="DISTANCE_CALCULATIONS">Distance Calculations</string>
 
-    <string name="toolbar_favorite_snack">"Toolbar favorite clicked: "</string>
-    <string name="snackbar_message">List of events closeby returned</string>
 
-    <!-- Main Activity -->
-    <string name="message">Enter Your Location</string>
-    <string name="x_coordinate_hint"> 3</string>
-    <string name="y_coordinate_hint"> 10</string>
-    <string name="find_button">Find Events Nearby</string>
+    <!-- punctuation and symbols -->
+    <string name="comma">\,</string>
+    <string name="pound_sterling_symbol">£</string>
+
+    <!-- layout properties -->
+    <string name="event_image">event_image</string>
+
 
 </resources>

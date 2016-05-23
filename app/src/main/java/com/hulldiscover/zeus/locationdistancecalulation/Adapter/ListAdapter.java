@@ -68,17 +68,34 @@ public class ListAdapter extends ArrayAdapter {
 
         Event item = (Event)this.getItem(position);
         // set resource for TextViews
-        //final VendingItem vendingItems = (VendingItem)this.getItem(position);
 
-        //final String newPictureId = Integer.toString(downloadedPuzzles.getPictureId());
-        // set the resource for the DownloadedPuzzlesHolder
-        viewHolder.eventID.setText(getContext().getText(R.string.eventID_tag) + " " + String.valueOf(item.getId()));
+        // set ID text
+        viewHolder.eventID.setText(getContext().getText(R.string.eventID_tag)
+                + " "
+                + String.valueOf(item.getId()));
+
+        // set Title text
         viewHolder.eventTitle.setText(item.getTitle());
         //viewHolder.eventLocation.setText(item.getLocation().toString());
-        viewHolder.eventPrice.setText(getContext().getText(R.string.price_tag) + " " + "£" + item.getPrice().toString());
+
+        // set Price text
+        viewHolder.eventPrice.setText(getContext().getText(R.string.price_tag)
+                + " " + getContext().getText(R.string.pound_sterling_symbol)
+                + item.getPrice().toString());
+
+        // grab event item location, and replace "() - brackets" punctuation with empty character
+        // and split on commas and consume any spaces either side
         String[] items = item.getLocation().toString().replaceAll("[()]", "").split("\\s*,\\s*");
-        viewHolder.eventLocation.setText(getContext().getText(R.string.location_tag) + " " + items[0].toString().replace("Point", "") + ", " + items[1].toString());
+
+        // set Location text
+        viewHolder.eventLocation.setText(getContext().getText(R.string.location_tag)
+                + " "
+                + items[0].toString().replace("Point", "")
+                + getContext().getText(R.string.comma) + items[1].toString());
+
+        // set Image
         Picasso.with(mContext)
+                // TODO: what if there is no image available ? Should display a placeholder image
                 .load(item.getEvent_image())
                 .fit()
                 .into(viewHolder.eventDisplayImage);

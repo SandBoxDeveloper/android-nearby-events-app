@@ -99,4 +99,77 @@
         <ticket_quantity>50</ticket_quantity>
         <location>1,2</location>
     </event>
+
+    <event>
+        <id>12</id>
+        <title>Tower</title>
+        <price>0.00</price>
+        <event_img>https://c074cc828eac9d94993b-30a8f8e53f85cb62a6e3a36fb538d69a.ssl.cf3.rackcdn.com/e_thumb_933_fd1883_Tower_Tile.jpg</event_img>
+        <ticket_quantity>100</ticket_quantity>
+        <location>1,10</location>
+    </event>
+
+    <event>
+        <id>13</id>
+        <title>Horror Soc: Film Screening</title>
+        <price>0.00</price>
+        <event_img>https://c074cc828eac9d94993b-30a8f8e53f85cb62a6e3a36fb538d69a.ssl.cf3.rackcdn.com/e_thumb_951_83857c_1.png</event_img>
+        <ticket_quantity>58</ticket_quantity>
+        <location>2,8</location>
+    </event>
+
+    <event>
+        <id>14</id>
+        <title>Breakdance: Weekly Training</title>
+        <price>0.00</price>
+        <event_img>https://c074cc828eac9d94993b-30a8f8e53f85cb62a6e3a36fb538d69a.ssl.cf3.rackcdn.com/e_thumb_955_b1a973_19.png</event_img>
+        <ticket_quantity>30</ticket_quantity>
+        <location>9,9</location>
+    </event>
+
+    <event>
+        <id>15</id>
+        <title>Brassick</title>
+        <price>0.00</price>
+        <event_img>http://images.hullstudent.com/default_event.png</event_img>
+        <ticket_quantity>420</ticket_quantity>
+        <location>4,7</location>
+    </event>
+
+    <event>
+        <id>16</id>
+        <title>Sci-Fi Soc: Film Screening</title>
+        <price>0.00</price>
+        <event_img>https://c074cc828eac9d94993b-30a8f8e53f85cb62a6e3a36fb538d69a.ssl.cf3.rackcdn.com/e_thumb_959_b877bc_2.png</event_img>
+        <ticket_quantity>50</ticket_quantity>
+        <location>8,8</location>
+    </event>
+
+    <event>
+        <id>17</id>
+        <title>Tower</title>
+        <price>0.00</price>
+        <event_img>https://c074cc828eac9d94993b-30a8f8e53f85cb62a6e3a36fb538d69a.ssl.cf3.rackcdn.com/e_thumb_944_2c4d98_Tower_Tile.jpg</event_img>
+        <ticket_quantity>250</ticket_quantity>
+        <location>5,1</location>
+    </event>
+
+    <event>
+        <id>18</id>
+        <title>The HUU Great Gatsby END OF YEAR BALL</title>
+        <price>0.00</price>
+        <event_img>http://images.hullstudent.com/default_event.png</event_img>
+        <ticket_quantity>4000</ticket_quantity>
+        <location>4,4</location>
+    </event>
+
+    <event>
+        <id>19</id>
+        <title>Last Tower of the Year!</title>
+        <price>39</price>
+        <event_img>https://c074cc828eac9d94993b-30a8f8e53f85cb62a6e3a36fb538d69a.ssl.cf3.rackcdn.com/e_thumb_943_97f66e_Tower_Tile.jpg</event_img>
+        <ticket_quantity>300</ticket_quantity>
+        <location>6,2</location>
+    </event>
+
 </event_listings>

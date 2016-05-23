@@ -8,12 +8,10 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ListView;
 import android.widget.Toast;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
-import com.hulldiscover.zeus.locationdistancecalulation.Adapter.ListAdapter;
 import com.hulldiscover.zeus.locationdistancecalulation.Helper.XMLPullParserHandler;
 import com.hulldiscover.zeus.locationdistancecalulation.Model.Event;
 import com.hulldiscover.zeus.locationdistancecalulation.R;
@@ -31,33 +29,29 @@ import java.util.Map;
 
 public class MainActivity extends AppCompatActivity {
 
-    String TAG = MainActivity.this.TAG;
+    private static final String TAG = "MainActivity";
 
+    //Members
     EditText mUserInputXCoordinate;
     EditText mUserInputYCoordinate;
     Button mReturnClosbyEventsButton;
-    ListView mListview; //ListView
-    ListAdapter mListAdapter; //ListAdapter
-    int mNumberOfResultsToDisplay = 3; // number rof results to display to user
+    private final int mNumberOfResultsToDisplay = 5; // number rof results to display to user
 
     Float xCoordinateAsInteger = 0f;
     Float yCoordinateAsInteger = 0f;
 
-    //map
-    Map<String, Float> map = new HashMap<String, Float>();
-    Map<String, Integer> eventWithDistance = new HashMap<String, Integer>();
-    Map<String, Event> eventWithCalculatedDistance = new HashMap<String, Event>();
-    Map<Event, Integer> eventObjectWithCalculatedDistance = new HashMap<Event, Integer>();
-    Map<String, Event> events = new HashMap<String, Event>();
+    //HashMap
+    Map<String, Float> calculatedDistancesMap = new HashMap<String, Float>(); // event's calculated distance away from user
+    Map<Event, Integer> eventObjectWithCalculatedDistance = new HashMap<Event, Integer>(); // event and its distance away from user
 
-    public static boolean ASC = true;
-    public static boolean DESC = false;
+    //Booleans to allow ordering of HashMaps
+    public static boolean ASC = true; // Ascending order
+    public static boolean DESC = false; // Descending order
 
-    // list of vending stock
-    ArrayList<Event> eventListings;
+    //List of Events
+    ArrayList<Event> eventListings; // all events
     ArrayList<String> imageURLs = new ArrayList<String>();
-    ArrayList<Integer> mEventID = new ArrayList<Integer>();
-    ArrayList<Event> mEvents = new ArrayList<Event>();
+    ArrayList<Event> mNearbyEvents = new ArrayList<Event>(); // events nearby to user's location
 
 
     @Override
@@ -92,6 +86,10 @@ public class MainActivity extends AppCompatActivity {
 
                 // validation was successful
                 mReturnClosbyEventsButton.setEnabled(false); // enable 'find nearby' events button
+
+                // display message to user, that closeby events are being loaded
+                Snackbar.make(parentLayout, getString(R.string.snackbar_message), Snackbar.LENGTH_SHORT).show();
+
                 try {
                     // grab user inputs, x and y coordinates
 
@@ -104,98 +102,29 @@ public class MainActivity extends AppCompatActivity {
                     exception.printStackTrace();
                 }
 
-                //list of calculated distances
-                //ArrayList<Integer> calculatedDistances = calculateDistanceBetweenLocations(eventListings, xCoordinateAsInteger, yCoordinateAsInteger);
-                //Collections.sort(calculatedDistances);
-
-                /*ArrayList<Integer> calculatedDistances = calculateDistanceBetweenLocations(eventListings, xCoordinateAsInteger, yCoordinateAsInteger);
-                for (int j = 0; j < eventObjectWithCalculatedDistance.size(); j++) {
-                    Collections.sort(eventObjectWithCalculatedDistance.values());
-                }*/
-
-               // Collections.sort(calculatedDistances);
-
-                ArrayList<Event> mQuestionList = new ArrayList<Event>();
-
+                // list of calculated distances
                 Map<Event, Integer> calculatedDistances = calculateDistanceBetweenLocations(eventListings, xCoordinateAsInteger, yCoordinateAsInteger);
+
+                /*
+                 * Sort results of calculated distance (CalculatedDistances)
+                 * That contains how far-away the user is from
+                 * All listed Events in ascending order (smallest to highest).
+                 */
                 Map<Event, Integer> sortedMapAsc = sortByComparator(calculatedDistances, ASC);
-                /*for (Map.Entry<Event,Integer> entry : calculatedDistances.entrySet()) {
-                    Event key = entry.getKey();
-                    Integer value = entry.getValue();
-                    Log.d("Key: ", key.getTitle().toString());
-                    Log.d("Value: ", value.toString());
-                    mEvents.add(entry.getKey());
-                    // do stuff
-                    //Map<Event, Integer> treeMap = new TreeMap<Event, Integer>(calculatedDistances);
-                    //Log.d("Sorted Map", treeMap.toString());
-                }*/
+                /*
+                 * Loop through results of calculated distances
+                 * From listed events, to the user's location.
+                 * Add n number of events closest to user
+                 * Defined by mNumberOfResultsToDisplay global member variable
+                 */
+                List<Map.Entry<Event, Integer>> list = new LinkedList<Map.Entry<Event, Integer>>(sortedMapAsc.entrySet()); // sorted list of distances
 
-
-                //Map<Event, Integer> treeMap = new TreeMap<Event, Integer>(eventObjectWithCalculatedDistance);
-                //Log.d("Sorted Map", treeMap.toString());
-                /*for(int q = 0 ; q < eventObjectWithCalculatedDistance.size(); q++) {
-                    int eventItem = eventObjectWithCalculatedDistance.get(q);
-
-                }*/
-
-                List<Map.Entry<Event, Integer>> list = new LinkedList<Map.Entry<Event, Integer>>(sortedMapAsc.entrySet());
-
-                    /*
-                    * Loop through results of calculated distances
-                    * From listed events, to the user's location.
-                    * Add n number of events closest to user
-                    * Defined by mNumberOfResultsToDisplay global member variable
-                    */
-                for(int counter  = 0; counter < mNumberOfResultsToDisplay; counter++) {
+                for (int counter = 0; counter < mNumberOfResultsToDisplay; counter++) {
+                    //TODO: What if there are two events with the same distance away from the user?
                     Event key = list.get(counter).getKey();
                     System.out.println(key.getId() + " = " + list.get(counter).getValue());
-                    mEvents.add(key); // add closet events
+                    mNearbyEvents.add(key); // add closet events
                 }
-
-                //display events that are closest to user i.e smaller distance
-                //for (int i = 0; i < mNumberOfResultsToDisplay; i++) {
-                    //Log.d("Sorted List", calculatedDistances.get(i).toString());
-                   /* Log.d("Cal Distance", eventWithCalculatedDistance.get("Event " + map.get("Event " + i + " ID")).getTitle());
-                    eventWithCalculatedDistance.get("Event " + map.get("Event " + i + " ID")); //TODO
-
-                    eventWithDistance.get("Event " + map.get("Event " + i + " ID")); //event ID
-                    eventWithDistance.get("Event " + map.get("Event " + i + " ID") + " Distance"); //distance event is from user
-                    mEventID.add(eventWithDistance.get("Event " + map.get("Event " + i + " ID"))); // add event ids to list
-                    mEvents.add(eventWithCalculatedDistance.get("Event " + map.get("Event " + i + " ID")));
-                    events.get("Event " + i);
-                    mQuestionList.add(mEvents.get(i)); // remove*/
-
-                    /*for (Map.Entry<Event,Integer> entry = 0; b < mNumberOfResultsToDisplay; b++) {
-                        mEvents.add(sortedMapAsc);
-                    }*/
-
-                   /* Iterator it = sortedMapAsc.entrySet().iterator();
-                    while (sortedMapAsc.size() < mNumberOfResultsToDisplay)  {
-                        Map.Entry pair = (Map.Entry)it.next();
-                        Event key = (Event)pair.getKey();
-                        System.out.println(key.getId() + " = " + pair.getValue());
-                        mEvents.add((Event)pair.getKey());
-                        it.remove(); // avoids a ConcurrentModificationException
-                    }*/
-
-
-
-                    /*for (Map.Entry<Event,Integer> entry : calculatedDistances.entrySet()) {
-                        Event key = entry.getKey();
-                        Integer value = entry.getValue();
-                        Log.d("Key: ", key.getTitle().toString());
-                        Log.d("Value: ", value.toString());
-                        //Collections.sort(entry);
-                        //mEvents.add(entry.getKey());
-                        // do stuff
-                        //Map<Event, Integer> treeMap = new TreeMap<Event, Integer>(calculatedDistances);
-                        //Log.d("Sorted Map", treeMap.toString());
-                    }*/
-                //}
-
-                // display message to user
-                Snackbar.make(parentLayout, getString(R.string.snackbar_message), Snackbar.LENGTH_SHORT).show();
-
 
                 /*
                 * Pass data by intents to NearbyEventList Activity
@@ -214,7 +143,7 @@ public class MainActivity extends AppCompatActivity {
                 }.getType();
 
                 // 4. java 'Event' object to JSON, and assign to a String
-                String eventObject = gson.toJson(mEvents, listOfEventObjects);
+                String eventObject = gson.toJson(mNearbyEvents, listOfEventObjects);
 
                 // 5. pass data as extras via intent
                 intent.putExtra("obj", eventObject);
@@ -227,6 +156,15 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
+    /*
+     * This method sorts a Hashmap,
+     * In ascending, or descending order.
+     *
+     * Parameters must into a Hashmap with input Event Object, and Integer Type.
+     * And boolean type, to represent what order the hashmap should be. i.e ASC or DESC
+     *
+     * Returns order/sorted HashMap.
+     */
     private static Map<Event, Integer> sortByComparator(Map<Event, Integer> unsortMap, final boolean order)
     {
 
@@ -260,6 +198,15 @@ public class MainActivity extends AppCompatActivity {
         return sortedMap;
     }
 
+    /*
+     * This method prints HashMap
+     * Key and Value.
+     *
+     * Parameters for method must include HashMap with types
+     * Event, and Integer.
+     *
+     * Returns Void.
+     */
     public static void printMap(Map<Event, Integer> map)
     {
         for (Map.Entry<Event, Integer> entry : map.entrySet())
@@ -270,6 +217,8 @@ public class MainActivity extends AppCompatActivity {
 
     /*
      * Retrieve event items from XML file
+     *
+     * Return void.
      */
     private void retrieveEventListings() {
         try {
@@ -277,13 +226,18 @@ public class MainActivity extends AppCompatActivity {
             eventListings = parser.parse(getAssets().open("event_listings.xml"));
             // add url of each vending item
             for (int i = 0; i < eventListings.size(); i++) {
-                imageURLs.add(eventListings.get(i).getEvent_image());
-                eventListings.get(i).setEvent_image(imageURLs.get(i));
-                eventListings.get(i).setLocation(eventListings.get(i).getLocation().x, eventListings.get(i).getLocation().y);
-                map.put("Event " + i + " ID", (float) eventListings.get(i).getId());
-                map.put("Event " + i + " LocationX", eventListings.get(i).getLocation().x);
-                map.put("Event " + i + " LocationY", eventListings.get(i).getLocation().y);
-                events.put("Event " + i, eventListings.get(i)); // map events
+                imageURLs.add(eventListings.get(i).getEvent_image()); // get URL's of event images
+                eventListings.get(i).setEvent_image(imageURLs.get(i)); // set event images
+                eventListings.get(i).setLocation(eventListings.get(i).getLocation().x, eventListings.get(i).getLocation().y); // set event coordinates
+                /*
+                 * Map a few event details to a HashMap,
+                 * For later reference.
+                 * Only Event ID, Event Coordinate X and Coordinate Y,
+                 * Are mapped.
+                 */
+                calculatedDistancesMap.put("Event " + i + " ID", (float) eventListings.get(i).getId()); // Event ID
+                calculatedDistancesMap.put("Event " + i + " LocationX", eventListings.get(i).getLocation().x); // Event Coordinate X
+                calculatedDistancesMap.put("Event " + i + " LocationY", eventListings.get(i).getLocation().y); // Event Coordinate Y
             }
         } catch (IOException e) {
             e.printStackTrace();
@@ -292,6 +246,8 @@ public class MainActivity extends AppCompatActivity {
 
     /*
      * Validate a user's inputs - x and y coordinates
+     *
+     * Returns boolean, either True or False.
      */
     public boolean validate() {
         boolean valid = true;
@@ -354,6 +310,8 @@ public class MainActivity extends AppCompatActivity {
     /*
     * A user's coordinates are in-valid
     * This method alerts the user that there input is incorrect
+    *
+    * Returns Void.
     */
     public void validationFailed() {
         Toast.makeText(MainActivity.this, "Something is wrong, please check your coordinates", Toast.LENGTH_LONG).show(); // alert user
@@ -363,8 +321,9 @@ public class MainActivity extends AppCompatActivity {
     /*
     * Calculate the distance between a user's coordinates againsts the coordinates of listed events
     * This method returns a Hashtable - The event mapped with the distance the user is from this event
+    *
+    * Returns HashMap of calculated Distances.
     */
-    //private ArrayList<Integer> calculateDistanceBetweenLocations(ArrayList<Event> eventListings, Float userXInput, Float userYInput) {
     private Map<Event, Integer> calculateDistanceBetweenLocations(ArrayList<Event> eventListings, Float userXInput, Float userYInput) {
         //init x, y coordinates
         Float xCoordinateAsInteger = userXInput;
@@ -381,26 +340,80 @@ public class MainActivity extends AppCompatActivity {
              */
             Float x1 = xCoordinateAsInteger; // user input
             Float y1 = yCoordinateAsInteger; // user input
-            Float x2 = map.get("Event " + i + " LocationX"); //event location x coordinate
-            Float y2 = map.get("Event " + i + " LocationY"); //event location y coordinate
+
+            // event location X coordinate
+            Float x2 = calculatedDistancesMap.get(getResources().getString(R.string.in_string_event_tag)
+                    + i + getResources().getString(R.string.in_string_locationX));
+            // event location Y coordinate
+            Float y2 = calculatedDistancesMap.get(getResources().getString(R.string.in_string_event_tag)
+                    + i + getResources().getString(R.string.in_string_locationY));
 
             // calculate the distance, using Manhattan Distance
             float calculatedDistance = manhattanDistance(x1, x2, y1, y2); // calculated distance between user and event
-            distances.add((int) calculatedDistance); // add distance to list
 
-
+            // add the event, and how far-away the user is from the event to the Hashmap
             eventObjectWithCalculatedDistance.put(eventListings.get(i), (int) calculatedDistance);
-            Log.d("MainActivity", "Calculation");
-            Log.d(eventListings.get(i).getTitle(), "Distance Away from user " + Float.toString(calculatedDistance)); // Title vs Calculated Distance
-            Log.d("Event ID: " + map.get("Event " + i + " ID"), "Distance Away from user " + Float.toString(calculatedDistance)); // Title vs Calculated Distance
+
+            // Log statements to display calculations
+            // Involved with calculating the distance from
+            // A user's location
+            // And a Event
+            Log.d(TAG, getResources().getString(R.string.DISTANCE_CALCULATIONS));
+
+             /*
+             * This log statement displays the Event Title,
+             * And how far-away the event is
+             * From the user's location.
+             */
+            Log.d(eventListings.get(i).getTitle(),
+                    // get and display the Event Title
+                    getResources().getString(R.string.in_string_distance_away_from)
+                            + Float.toString(calculatedDistance)); // Title vs Calculated Distance
+
+            /*
+             * This log statement displays the Event ID,
+             * And far-away the event is
+             * From the user's location.
+             */
+            Log.d(getResources().getString(R.string.eventID_tag)
+                    // get and display the eventID
+                    + calculatedDistancesMap.get(getResources().getString(R.string.in_string_event_tag)
+                    + i + getResources().getString(R.string.in_string_id_tag))
+
+                    // get and display calculated distance away from the user
+                    , getResources().getString(R.string.in_string_distance_away_from)
+                    + Float.toString(calculatedDistance)); // Title vs Calculated Distance
 
 
-            eventWithCalculatedDistance.put("Event " + map.get("Event " + i + " ID"), eventListings.get(i)); //TODO
+            /*
+             * This log statement displays the Event ID,
+             * It's X and Y coordinates,
+             * And the calculated distance away from the user's
+             * Location.
+             *
+             * String resources are used instead of using string literals
+             * Within this Log statement.
+             */
+            Log.d(getResources().getString(R.string.DISTANCE_CALCULATION_DETAILS_TAG),
+                    getResources().getString(R.string.in_string_eventID_tag)
 
-            eventWithDistance.put("Event " + map.get("Event " + i + " ID"), eventListings.get(i).getId()); //event ID
-            eventWithDistance.put("Event " + map.get("Event " + i + " ID") + " Distance", (int) calculatedDistance); //distance event is from user
+                    // get and display Event ID
+                    + calculatedDistancesMap.get(getResources().getString(R.string.in_string_event_tag)
+                    + i + getResources().getString(R.string.in_string_id_tag))
+                    + getResources().getString(R.string.comma)
 
-            Log.d(TAG, "Event ID " + map.get("Event " + i + " ID") + "," + " Location at: X-" + map.get("Event " + i + " LocationX") + " And Y-" + map.get("Event " + i + " LocationY") + " Distance= " + String.valueOf(calculatedDistance));
+                    // get and display coordinate X of event
+                    + getResources().getString(R.string.in_string_coordinateX)
+                    + calculatedDistancesMap.get(getResources().getString(R.string.in_string_event_tag)
+                    + i + getResources().getString(R.string.in_string_locationX))
+
+                    // get and display coordinate Y of event
+                    + getResources().getString(R.string.in_string_coordinateY)
+                    + calculatedDistancesMap.get(getResources().getString(R.string.in_string_event_tag)
+                    + i + getResources().getString(R.string.in_string_locationY))
+
+                    // get and display calculated distance away from the user
+                    + getResources().getString(R.string.in_string_distance) + String.valueOf(calculatedDistance));
 
         }
         //return distances; // return calculations for distances
@@ -410,6 +423,8 @@ public class MainActivity extends AppCompatActivity {
     /*
     * Calculate the distance between a user's coordinates againsts the coordinates of events nearby
     * Using the Manhattan Distance
+    *
+    * Returns Float value.
     */
     public Float manhattanDistance(Float x1, Float x2, Float y1, Float y2) {
         Float distance = (Math.abs(x2 - x1)) + (Math.abs(y2 - y1));
