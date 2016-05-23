@@ -34,7 +34,7 @@
 
 
     <!-- punctuation and symbols -->
-    <string name="comma">\,</string>
+    <string name="comma">","</string>
     <string name="pound_sterling_symbol">£</string>
 
     <!-- layout properties -->

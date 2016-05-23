@@ -90,8 +90,8 @@ public class ListAdapter extends ArrayAdapter {
         // set Location text
         viewHolder.eventLocation.setText(getContext().getText(R.string.location_tag)
                 + " "
-                + items[0].toString().replace("Point", "")
-                + getContext().getText(R.string.comma) + items[1].toString());
+                + items[0].toString().replace("PointF", "")
+                + getContext().getText(R.string.comma) + " " +items[1].toString());
 
         // set Image
         Picasso.with(mContext)
