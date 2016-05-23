@@ -124,6 +124,7 @@ public class MainActivity extends AppCompatActivity {
                     Event key = list.get(counter).getKey();
                     System.out.println(key.getId() + " = " + list.get(counter).getValue());
                     mNearbyEvents.add(key); // add closet events
+                    mNearbyEvents.get(counter).setDistance(list.get(counter).getValue()); // set event's distance away from user
                 }
 
                 /*
@@ -164,6 +165,9 @@ public class MainActivity extends AppCompatActivity {
      * And boolean type, to represent what order the hashmap should be. i.e ASC or DESC
      *
      * Returns order/sorted HashMap.
+     *
+     * Referenced from http://stackoverflow.com/questions/8119366/sorting-hashmap-by-values
+     * User - Rais Alarm. Answered Dec 17 '12 at 11:24.
      */
     private static Map<Event, Integer> sortByComparator(Map<Event, Integer> unsortMap, final boolean order)
     {
@@ -280,10 +284,10 @@ public class MainActivity extends AppCompatActivity {
 
         // when a user's coordinates are entered
         if (userXCoordinate.isEmpty() == false && userYCoordinate.isEmpty() == false) {
-            // check X Coordinate is valid between the range of 0 - 10
+            // check X Coordinate is valid between the range of -10 to 10
             if (Double.parseDouble(userXCoordinate) < (-10) || Double.parseDouble(userXCoordinate) > 10) {
                 // show error message to user
-                mUserInputXCoordinate.setError("enter a valid X coordinate between 0 and 10");
+                mUserInputXCoordinate.setError("enter a valid X coordinate between -10 and 10");
                 // set X coordinate as NOT valid
                 valid = false;
             } else {
@@ -291,10 +295,10 @@ public class MainActivity extends AppCompatActivity {
                 mUserInputXCoordinate.setError(null);
             }
 
-            // check Y Coordinate is valid between the range of 0 - 10
+            // check Y Coordinate is valid between the range of -10 to 10
             if (Double.parseDouble(userYCoordinate) < (-10) || Double.parseDouble(userYCoordinate) > 10) {
                 // show error message to user
-                mUserInputYCoordinate.setError("enter a valid Y coordinate between 0 and 10");
+                mUserInputYCoordinate.setError("enter a valid Y coordinate between -10 and 10");
                 // set Y coordinate as NOT valid
                 valid = false;
             } else {

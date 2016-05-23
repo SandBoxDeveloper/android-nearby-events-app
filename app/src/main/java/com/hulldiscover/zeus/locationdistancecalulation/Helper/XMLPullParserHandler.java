@@ -65,8 +65,11 @@ public class XMLPullParserHandler {
                         else if (tagName.equalsIgnoreCase("event_img")) {
                             eventItem.setEvent_image(text);
                         }
-                        else if (tagName.equalsIgnoreCase("price")) {
-                            eventItem.setPrice(new BigDecimal(text));
+                        else if (tagName.equalsIgnoreCase("ticket_price_catA")) {
+                            eventItem.setPriceCatA(new BigDecimal(text));
+                        }
+                        else if (tagName.equalsIgnoreCase("ticket_price_catB")) {
+                            eventItem.setPriceCatB(new BigDecimal(text));
                         }
                         else if (tagName.equalsIgnoreCase("quantity")) {
                             eventItem.setNoOfTickets(Integer.parseInt(text));

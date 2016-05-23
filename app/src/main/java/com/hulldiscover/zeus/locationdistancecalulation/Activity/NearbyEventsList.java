@@ -11,6 +11,7 @@ import com.hulldiscover.zeus.locationdistancecalulation.Adapter.ListAdapter;
 import com.hulldiscover.zeus.locationdistancecalulation.Model.Event;
 import com.hulldiscover.zeus.locationdistancecalulation.R;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -53,11 +54,26 @@ public class NearbyEventsList extends AppCompatActivity{
          */
         mNearbyEventsList.clear(); // clear old list
         for(int j = 0; j < nearbyEvents.size(); j++) {
+            // find cheaper price from the event
+            BigDecimal minimumPrice = findMinimumPrice(nearbyEvents.get(j).getPriceCatA(), nearbyEvents.get(j).getPriceCatB());
+            // set the event's minimum price
+            nearbyEvents.get(j).setCheapestPrice(minimumPrice);
+            // add events to list that will be displayed
             mNearbyEventsList.add(nearbyEvents.get(j));
         }
+
 
         //display nearby events to screen
         mListAdapter = new ListAdapter(this, R.layout.listview_event_item, mNearbyEventsList);
         mListview.setAdapter(mListAdapter);
+    }
+
+    /*
+     * This methods finds the minimum price of two BigDecimal values.
+     *
+     * Returns the minimum price as a BigDecimal value.
+     */
+    public static BigDecimal findMinimumPrice(BigDecimal a, BigDecimal b) {
+        return a.min(b);
     }
 }

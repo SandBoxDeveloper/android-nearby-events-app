@@ -4,7 +4,8 @@
     <event>
         <id>1</id>
         <title>Euro Football Final</title>
-        <price>0.85</price>
+        <ticket_price_catA>45.00</ticket_price_catA>
+        <ticket_price_catB>65.50</ticket_price_catB>
         <event_img>https://netivist.org/uploads/forum/discussions/pictures/5675417b55f4f707e4a7bb1a/who-will-win-euro-2016.jpg</event_img>
         <ticket_quantity>200</ticket_quantity>
         <location>3,6</location>
@@ -13,7 +14,8 @@
     <event>
         <id>2</id>
         <title>Movie - Night at the Museum</title>
-        <price>0.70</price>
+        <ticket_price_catA>6.70</ticket_price_catA>
+        <ticket_price_catB>9.50</ticket_price_catB>
         <event_img>http://www.shockya.com/news/wp-content/uploads/Night-at-the-Museum-Secret-of-the-Tomb-Movie-Review.jpg</event_img>
         <ticket_quantity>70</ticket_quantity>
         <location>7,2</location>
@@ -22,7 +24,8 @@
     <event>
         <id>3</id>
         <title>Musical - Wicked</title>
-        <price>1.70</price>
+        <ticket_price_catA>35.00</ticket_price_catA>
+        <ticket_price_catB>17.50</ticket_price_catB>
         <event_img>http://cdn.gymnasticstracks.com/wp-content/uploads/2015/08/Wicked-UK-Ireland-Tour_-Credit-Matt-Crockett_MCR_5225-2.jpg</event_img>
         <ticket_quantity>45</ticket_quantity>
         <location>2,10</location>
@@ -31,7 +34,8 @@
     <event>
         <id>4</id>
         <title>Cocktail Night</title>
-        <price>0.85</price>
+        <ticket_price_catA>5.00</ticket_price_catA>
+        <ticket_price_catB>4.50</ticket_price_catB>
         <event_img>http://res.cloudinary.com/cheersy/image/upload/c_crop,x_0,y_133,w_1000,h_466/c_fill,w_640,h_298/rfd6uhvo2zazave89nmq.jpg</event_img>
         <ticket_quantity>10</ticket_quantity>
         <location>6,7</location>
@@ -40,7 +44,8 @@
     <event>
         <id>5</id>
         <title>Concert - Beyonce</title>
-        <price>6</price>
+        <ticket_price_catA>500.00</ticket_price_catA>
+        <ticket_price_catB>100.50</ticket_price_catB>
         <event_img>http://www.arabamericannews.com/news/images/article/2016_02/11788/u1_977433-Beyonce.jpg</event_img>
         <ticket_quantity>40</ticket_quantity>
         <location>4,4</location>
@@ -49,7 +54,8 @@
     <event>
         <id>6</id>
         <title>Hamilton</title>
-        <price>0.55</price>
+        <ticket_price_catA>15.00</ticket_price_catA>
+        <ticket_price_catB>29.50</ticket_price_catB>
         <event_img>http://cdn.spotcointeractive.com/websites/hamilton/_img/keyart-anim.gif</event_img>
         <ticket_quantity>70</ticket_quantity>
         <location>1,4</location>
@@ -58,7 +64,8 @@
     <event>
         <id>7</id>
         <title>International Tennis</title>
-        <price>0.45</price>
+        <ticket_price_catA>45.00</ticket_price_catA>
+        <ticket_price_catB>22.50</ticket_price_catB>
         <event_img>http://www.atptenniso2.co.uk/wp-content/uploads/2015/03/atp-tennis-mens-finals.jpg</event_img>
         <ticket_quantity>100</ticket_quantity>
         <location>9,10</location>
@@ -67,7 +74,8 @@
     <event>
         <id>8</id>
         <title>Les Miserables</title>
-        <price>1.45</price>
+        <ticket_price_catA>100.45</ticket_price_catA>
+        <ticket_price_catB>50.50</ticket_price_catB>
         <event_img>https://www.wya.net/wp-content/uploads/2015/07/db678d4ff23f3757c433beebf142003f.jpg</event_img>
         <ticket_quantity>5</ticket_quantity>
         <location>2,9</location>
@@ -76,7 +84,8 @@
     <event>
         <id>9</id>
         <title>American Football - Arizona Rattlers</title>
-        <price>3.45</price>
+        <ticket_price_catA>3.45</ticket_price_catA>
+        <ticket_price_catB>2.50</ticket_price_catB>
         <event_img>https://www.azrattlers.com/wp-content/uploads/150502_azr_sjs_0611.jpg</event_img>
         <ticket_quantity>100</ticket_quantity>
         <location>10,10</location>
@@ -85,7 +94,8 @@
     <event>
         <id>10</id>
         <title>Basketball</title>
-        <price>4.45</price>
+        <ticket_price_catA>8.90</ticket_price_catA>
+        <ticket_price_catB>4.45</ticket_price_catB>
         <event_img>http://cdn.ltstatic.com/2013/January/KL340140_942long.jpg</event_img>
         <ticket_quantity>90</ticket_quantity>
         <location>4,10</location>
@@ -94,7 +104,8 @@
     <event>
         <id>11</id>
         <title>Avenue Q</title>
-        <price>46.15</price>
+        <ticket_price_catA>46.15</ticket_price_catA>
+        <ticket_price_catB>35.00</ticket_price_catB>
         <event_img>http://www.avenueqlondon.com/wp-content/uploads/2010/08/201108103133_avenueq455.jpg</event_img>
         <ticket_quantity>50</ticket_quantity>
         <location>1,2</location>
@@ -103,7 +114,8 @@
     <event>
         <id>12</id>
         <title>Tower</title>
-        <price>0.00</price>
+        <ticket_price_catA>3.20</ticket_price_catA>
+        <ticket_price_catB>2.50</ticket_price_catB>
         <event_img>https://c074cc828eac9d94993b-30a8f8e53f85cb62a6e3a36fb538d69a.ssl.cf3.rackcdn.com/e_thumb_933_fd1883_Tower_Tile.jpg</event_img>
         <ticket_quantity>100</ticket_quantity>
         <location>1,10</location>
@@ -112,7 +124,8 @@
     <event>
         <id>13</id>
         <title>Horror Soc: Film Screening</title>
-        <price>0.00</price>
+        <ticket_price_catA>5.00</ticket_price_catA>
+        <ticket_price_catB>10.50</ticket_price_catB>
         <event_img>https://c074cc828eac9d94993b-30a8f8e53f85cb62a6e3a36fb538d69a.ssl.cf3.rackcdn.com/e_thumb_951_83857c_1.png</event_img>
         <ticket_quantity>58</ticket_quantity>
         <location>2,8</location>
@@ -121,7 +134,8 @@
     <event>
         <id>14</id>
         <title>Breakdance: Weekly Training</title>
-        <price>0.00</price>
+        <ticket_price_catA>1.00</ticket_price_catA>
+        <ticket_price_catB>2.50</ticket_price_catB>
         <event_img>https://c074cc828eac9d94993b-30a8f8e53f85cb62a6e3a36fb538d69a.ssl.cf3.rackcdn.com/e_thumb_955_b1a973_19.png</event_img>
         <ticket_quantity>30</ticket_quantity>
         <location>9,9</location>
@@ -130,7 +144,8 @@
     <event>
         <id>15</id>
         <title>Brassick</title>
-        <price>0.00</price>
+        <ticket_price_catA>3.20</ticket_price_catA>
+        <ticket_price_catB>2.50</ticket_price_catB>
         <event_img>http://images.hullstudent.com/default_event.png</event_img>
         <ticket_quantity>420</ticket_quantity>
         <location>4,7</location>
@@ -139,7 +154,8 @@
     <event>
         <id>16</id>
         <title>Sci-Fi Soc: Film Screening</title>
-        <price>0.00</price>
+        <ticket_price_catA>6.00</ticket_price_catA>
+        <ticket_price_catB>5.00</ticket_price_catB>
         <event_img>https://c074cc828eac9d94993b-30a8f8e53f85cb62a6e3a36fb538d69a.ssl.cf3.rackcdn.com/e_thumb_959_b877bc_2.png</event_img>
         <ticket_quantity>50</ticket_quantity>
         <location>8,8</location>
@@ -148,7 +164,8 @@
     <event>
         <id>17</id>
         <title>Tower</title>
-        <price>0.00</price>
+        <ticket_price_catA>3.20</ticket_price_catA>
+        <ticket_price_catB>2.50</ticket_price_catB>
         <event_img>https://c074cc828eac9d94993b-30a8f8e53f85cb62a6e3a36fb538d69a.ssl.cf3.rackcdn.com/e_thumb_944_2c4d98_Tower_Tile.jpg</event_img>
         <ticket_quantity>250</ticket_quantity>
         <location>5,1</location>
@@ -157,7 +174,8 @@
     <event>
         <id>18</id>
         <title>The HUU Great Gatsby END OF YEAR BALL</title>
-        <price>0.00</price>
+        <ticket_price_catA>1.00</ticket_price_catA>
+        <ticket_price_catB>2.50</ticket_price_catB>
         <event_img>http://images.hullstudent.com/default_event.png</event_img>
         <ticket_quantity>4000</ticket_quantity>
         <location>4,4</location>
@@ -166,7 +184,8 @@
     <event>
         <id>19</id>
         <title>Last Tower of the Year!</title>
-        <price>39</price>
+        <ticket_price_catA>39</ticket_price_catA>
+        <ticket_price_catB>19</ticket_price_catB>
         <event_img>https://c074cc828eac9d94993b-30a8f8e53f85cb62a6e3a36fb538d69a.ssl.cf3.rackcdn.com/e_thumb_943_97f66e_Tower_Tile.jpg</event_img>
         <ticket_quantity>300</ticket_quantity>
         <location>6,2</location>

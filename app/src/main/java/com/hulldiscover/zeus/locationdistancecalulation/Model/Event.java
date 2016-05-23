@@ -11,11 +11,14 @@ import java.math.BigDecimal;
 public class Event implements Serializable {
 
     int id;
-    BigDecimal price;
+    BigDecimal priceCatA;
+    BigDecimal priceCatB;
+    BigDecimal lowestPrice;
     String title;
     String event_image;
     int noOfTickets;
     PointF location;
+    Integer distance;
 
 
     public Event() {
@@ -29,12 +32,28 @@ public class Event implements Serializable {
         this.id = id;
     }
 
-    public BigDecimal getPrice() {
-        return price;
+    public BigDecimal getPriceCatA() {
+        return priceCatA;
     }
 
-    public void setPrice(BigDecimal price) {
-        this.price = price;
+    public void setPriceCatA(BigDecimal price) {
+        this.priceCatA = price;
+    }
+
+    public BigDecimal getPriceCatB() {
+        return priceCatB;
+    }
+
+    public void setPriceCatB(BigDecimal price) {
+        this.priceCatB = price;
+    }
+
+    public BigDecimal getCheapestPrice() {
+        return lowestPrice;
+    }
+
+    public void setCheapestPrice(BigDecimal price) {
+        this.lowestPrice = price;
     }
 
     public String getTitle() {
@@ -70,4 +89,13 @@ public class Event implements Serializable {
         this.location.x = pointX;
         this.location.y = pointY;
     }
+
+    public Integer getDistance() {
+        return distance;
+    }
+
+    public void setDistance(Integer distance) {
+        this.distance = distance;
+    }
+
 }

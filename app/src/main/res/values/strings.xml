@@ -27,6 +27,7 @@
     <string name="price_tag">from </string>
     <string name="eventID_tag">ID: </string>
     <string name="location_tag">Location: </string>
+    <string name="distance_text_label">"Distance "</string>
 
     <!-- TAGS -->
     <string name="DISTANCE_CALCULATION_DETAILS_TAG">CALCULATION DETAILS</string>
@@ -35,7 +36,7 @@
 
     <!-- punctuation and symbols -->
     <string name="comma">","</string>
-    <string name="pound_sterling_symbol">£</string>
+    <string name="dollor_symbol">$</string>
 
     <!-- layout properties -->
     <string name="event_image">event_image</string>

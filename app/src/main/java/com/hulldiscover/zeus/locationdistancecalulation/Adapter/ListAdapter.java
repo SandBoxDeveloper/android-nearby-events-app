@@ -80,18 +80,22 @@ public class ListAdapter extends ArrayAdapter {
 
         // set Price text
         viewHolder.eventPrice.setText(getContext().getText(R.string.price_tag)
-                + " " + getContext().getText(R.string.pound_sterling_symbol)
-                + item.getPrice().toString());
+                + " " + getContext().getText(R.string.dollor_symbol)
+                + item.getCheapestPrice().toString());
 
         // grab event item location, and replace "() - brackets" punctuation with empty character
         // and split on commas and consume any spaces either side
-        String[] items = item.getLocation().toString().replaceAll("[()]", "").split("\\s*,\\s*");
+        //String[] items = item.getLocation().toString().replaceAll("[()]", "").split("\\s*,\\s*");
 
         // set Location text
-        viewHolder.eventLocation.setText(getContext().getText(R.string.location_tag)
+       /* viewHolder.eventLocation.setText(getContext().getText(R.string.location_tag)
                 + " "
                 + items[0].toString().replace("PointF", "")
-                + getContext().getText(R.string.comma) + " " +items[1].toString());
+                + getContext().getText(R.string.comma) + " " +items[1].toString());*/
+
+        // set Location text with how far away it is from the user (Distance)
+        viewHolder.eventLocation.setText(getContext().getText(R.string.distance_text_label)
+                + item.getDistance().toString());
 
         // set Image
         Picasso.with(mContext)
