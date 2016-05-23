@@ -21,7 +21,11 @@ import com.hulldiscover.zeus.locationdistancecalulation.R;
 import java.io.IOException;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
@@ -45,6 +49,9 @@ public class MainActivity extends AppCompatActivity {
     Map<String, Event> eventWithCalculatedDistance = new HashMap<String, Event>();
     Map<Event, Integer> eventObjectWithCalculatedDistance = new HashMap<Event, Integer>();
     Map<String, Event> events = new HashMap<String, Event>();
+
+    public static boolean ASC = true;
+    public static boolean DESC = false;
 
     // list of vending stock
     ArrayList<Event> eventListings;
@@ -111,16 +118,17 @@ public class MainActivity extends AppCompatActivity {
                 ArrayList<Event> mQuestionList = new ArrayList<Event>();
 
                 Map<Event, Integer> calculatedDistances = calculateDistanceBetweenLocations(eventListings, xCoordinateAsInteger, yCoordinateAsInteger);
-
-                for (Map.Entry<Event,Integer> entry : calculatedDistances.entrySet()) {
+                Map<Event, Integer> sortedMapAsc = sortByComparator(calculatedDistances, ASC);
+                /*for (Map.Entry<Event,Integer> entry : calculatedDistances.entrySet()) {
                     Event key = entry.getKey();
                     Integer value = entry.getValue();
                     Log.d("Key: ", key.getTitle().toString());
                     Log.d("Value: ", value.toString());
+                    mEvents.add(entry.getKey());
                     // do stuff
                     //Map<Event, Integer> treeMap = new TreeMap<Event, Integer>(calculatedDistances);
                     //Log.d("Sorted Map", treeMap.toString());
-                }
+                }*/
 
 
                 //Map<Event, Integer> treeMap = new TreeMap<Event, Integer>(eventObjectWithCalculatedDistance);
@@ -130,10 +138,24 @@ public class MainActivity extends AppCompatActivity {
 
                 }*/
 
+                List<Map.Entry<Event, Integer>> list = new LinkedList<Map.Entry<Event, Integer>>(sortedMapAsc.entrySet());
+
+                    /*
+                    * Loop through results of calculated distances
+                    * From listed events, to the user's location.
+                    * Add n number of events closest to user
+                    * Defined by mNumberOfResultsToDisplay global member variable
+                    */
+                for(int counter  = 0; counter < mNumberOfResultsToDisplay; counter++) {
+                    Event key = list.get(counter).getKey();
+                    System.out.println(key.getId() + " = " + list.get(counter).getValue());
+                    mEvents.add(key); // add closet events
+                }
+
                 //display events that are closest to user i.e smaller distance
-                for (int i = 0; i < mNumberOfResultsToDisplay; i++) {
+                //for (int i = 0; i < mNumberOfResultsToDisplay; i++) {
                     //Log.d("Sorted List", calculatedDistances.get(i).toString());
-                    Log.d("Cal Distance", eventWithCalculatedDistance.get("Event " + map.get("Event " + i + " ID")).getTitle());
+                   /* Log.d("Cal Distance", eventWithCalculatedDistance.get("Event " + map.get("Event " + i + " ID")).getTitle());
                     eventWithCalculatedDistance.get("Event " + map.get("Event " + i + " ID")); //TODO
 
                     eventWithDistance.get("Event " + map.get("Event " + i + " ID")); //event ID
@@ -141,8 +163,35 @@ public class MainActivity extends AppCompatActivity {
                     mEventID.add(eventWithDistance.get("Event " + map.get("Event " + i + " ID"))); // add event ids to list
                     mEvents.add(eventWithCalculatedDistance.get("Event " + map.get("Event " + i + " ID")));
                     events.get("Event " + i);
-                    mQuestionList.add(mEvents.get(i)); // remove
-                }
+                    mQuestionList.add(mEvents.get(i)); // remove*/
+
+                    /*for (Map.Entry<Event,Integer> entry = 0; b < mNumberOfResultsToDisplay; b++) {
+                        mEvents.add(sortedMapAsc);
+                    }*/
+
+                   /* Iterator it = sortedMapAsc.entrySet().iterator();
+                    while (sortedMapAsc.size() < mNumberOfResultsToDisplay)  {
+                        Map.Entry pair = (Map.Entry)it.next();
+                        Event key = (Event)pair.getKey();
+                        System.out.println(key.getId() + " = " + pair.getValue());
+                        mEvents.add((Event)pair.getKey());
+                        it.remove(); // avoids a ConcurrentModificationException
+                    }*/
+
+
+
+                    /*for (Map.Entry<Event,Integer> entry : calculatedDistances.entrySet()) {
+                        Event key = entry.getKey();
+                        Integer value = entry.getValue();
+                        Log.d("Key: ", key.getTitle().toString());
+                        Log.d("Value: ", value.toString());
+                        //Collections.sort(entry);
+                        //mEvents.add(entry.getKey());
+                        // do stuff
+                        //Map<Event, Integer> treeMap = new TreeMap<Event, Integer>(calculatedDistances);
+                        //Log.d("Sorted Map", treeMap.toString());
+                    }*/
+                //}
 
                 // display message to user
                 Snackbar.make(parentLayout, getString(R.string.snackbar_message), Snackbar.LENGTH_SHORT).show();
@@ -176,6 +225,47 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+    }
+
+    private static Map<Event, Integer> sortByComparator(Map<Event, Integer> unsortMap, final boolean order)
+    {
+
+        List<Map.Entry<Event, Integer>> list = new LinkedList<Map.Entry<Event, Integer>>(unsortMap.entrySet());
+
+        // Sorting the list based on values
+        Collections.sort(list, new Comparator<Map.Entry<Event, Integer>>()
+        {
+            public int compare(Map.Entry<Event, Integer> o1,
+                               Map.Entry<Event, Integer> o2)
+            {
+                if (order)
+                {
+                    return o1.getValue().compareTo(o2.getValue());
+                }
+                else
+                {
+                    return o2.getValue().compareTo(o1.getValue());
+
+                }
+            }
+        });
+
+        // Maintaining insertion order with the help of LinkedList
+        Map<Event, Integer> sortedMap = new LinkedHashMap<Event, Integer>();
+        for (Map.Entry<Event, Integer> entry : list)
+        {
+            sortedMap.put(entry.getKey(), entry.getValue());
+        }
+
+        return sortedMap;
+    }
+
+    public static void printMap(Map<Event, Integer> map)
+    {
+        for (Map.Entry<Event, Integer> entry : map.entrySet())
+        {
+            System.out.println("Key : " + entry.getKey() + " Value : "+ entry.getValue());
+        }
     }
 
     /*
@@ -297,7 +387,6 @@ public class MainActivity extends AppCompatActivity {
             // calculate the distance, using Manhattan Distance
             float calculatedDistance = manhattanDistance(x1, x2, y1, y2); // calculated distance between user and event
             distances.add((int) calculatedDistance); // add distance to list
-
 
 
             eventObjectWithCalculatedDistance.put(eventListings.get(i), (int) calculatedDistance);
