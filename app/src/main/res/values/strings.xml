@@ -11,6 +11,14 @@
     <string name="y_coordinate_hint">" 10"</string>
     <string name="find_button">Find Events Nearby</string>
 
+    <!-- EditText input validation -->
+    <string name="enter_x_coordinate">enter a X coordinate</string>
+    <string name="enter_y_coordinate">enter a Y coordinate</string>
+    <string name="xCoordinate_error_message">enter a valid X coordinate between -10 and 10</string>
+    <string name="yCoordinate_error_message">enter a valid Y coordinate between -10 and 10</string>
+
+
+
     <!-- In String Text -->
     <string name="in_string_event_tag">"Event "</string>
     <string name="in_string_locationX">" LocationX"</string>

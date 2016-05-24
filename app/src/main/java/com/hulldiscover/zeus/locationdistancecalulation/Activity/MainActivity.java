@@ -224,7 +224,7 @@ public class MainActivity extends AppCompatActivity {
      *
      * Return void.
      */
-    private void retrieveEventListings() {
+    public void retrieveEventListings() {
         try {
             XMLPullParserHandler parser = new XMLPullParserHandler();
             eventListings = parser.parse(getAssets().open("event_listings.xml"));
@@ -263,7 +263,7 @@ public class MainActivity extends AppCompatActivity {
         // check X coordinate is not blank
         if (userXCoordinate.isEmpty()) {
             // show error message to user
-            mUserInputXCoordinate.setError("enter a X coordinate");
+            mUserInputXCoordinate.setError(getString(R.string.enter_x_coordinate));
             // set X coordinate as NOT valid
             valid = false;
         } else {
@@ -274,7 +274,7 @@ public class MainActivity extends AppCompatActivity {
         // check X coordinate is not blank
         if (userYCoordinate.isEmpty()) {
             // show error message to user
-            mUserInputYCoordinate.setError("enter a Y coordinate");
+            mUserInputYCoordinate.setError(getString(R.string.enter_y_coordinate));
             // set Y coordinate as NOT valid
             valid = false;
         } else {
@@ -287,7 +287,7 @@ public class MainActivity extends AppCompatActivity {
             // check X Coordinate is valid between the range of -10 to 10
             if (Double.parseDouble(userXCoordinate) < (-10) || Double.parseDouble(userXCoordinate) > 10) {
                 // show error message to user
-                mUserInputXCoordinate.setError("enter a valid X coordinate between -10 and 10");
+                mUserInputXCoordinate.setError(getString(R.string.xCoordinate_error_message));
                 // set X coordinate as NOT valid
                 valid = false;
             } else {
@@ -298,7 +298,7 @@ public class MainActivity extends AppCompatActivity {
             // check Y Coordinate is valid between the range of -10 to 10
             if (Double.parseDouble(userYCoordinate) < (-10) || Double.parseDouble(userYCoordinate) > 10) {
                 // show error message to user
-                mUserInputYCoordinate.setError("enter a valid Y coordinate between -10 and 10");
+                mUserInputYCoordinate.setError(getString(R.string.yCoordinate_error_message));
                 // set Y coordinate as NOT valid
                 valid = false;
             } else {

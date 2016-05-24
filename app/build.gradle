@@ -10,12 +10,18 @@ android {
         targetSdkVersion 23
         versionCode 1
         versionName "1.0"
+
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
     buildTypes {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
+    }
+
+    testOptions {
+        unitTests.returnDefaultValues = true
     }
 }
 
@@ -29,4 +35,21 @@ dependencies {
     compile 'com.github.jd-alexander:LikeButton:0.2.0'
     compile 'com.jakewharton:butterknife:8.0.1'
     compile 'com.google.code.gson:gson:2.6.2'
+
+
+    // Testing-only dependencies
+    // these are going to be run anytime androidTest are run
+
+    androidTestCompile 'com.android.support:support-annotations:23.3.0'
+    androidTestCompile 'com.android.support.test:runner:0.5'
+    // Set this dependency to use JUnit 4 rules
+    androidTestCompile 'com.android.support.test:rules:0.5'
+    // Set this dependency to build and run Espresso tests
+    androidTestCompile 'com.android.support.test.espresso:espresso-core:2.2.2'
+    // Set this dependency to build and run UI Automator tests
+    androidTestCompile 'com.android.support.test.uiautomator:uiautomator-v18:2.1.2'
+    // Set this dependency to enable validation and stubbing of Intents
+    androidTestCompile 'com.android.support.test.espresso:espresso-intents:2.2.2'
+
+    //androidTestCompile 'com.android.support.test:testing-support-lib:0.1'
 }
